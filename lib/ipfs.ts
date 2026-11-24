@@ -217,15 +217,6 @@ export function xhrUpload(
     xhr.setRequestHeader("Authorization", `Bearer ${token}`);
 
     const cleanup = () => signal?.removeEventListener("abort", onAbort);
-    const onAbort = () => {
-      cleanup();
-      try {
-        xhr.abort();
-      } finally {
-        reject(new UploadAbortedError());
-      }
-    };
-    signal?.addEventListener("abort", onAbort, { once: true });
 
     if (onProgress) {
       xhr.upload.onprogress = (e) => {
